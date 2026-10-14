@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  /* __BRAND_CSS__ — cards.mjs fills --primary/--deep/--accent and the BrandFont @font-face */
+  :root { --ink: #0a0a0a; --muted: #6b7280; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 100%; height: 100%; overflow: hidden; font-family: "BrandFont", "Segoe UI", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  body.solid { background: radial-gradient(120% 90% at 30% 20%, color-mix(in srgb, var(--primary) 92%, white) 0%, var(--primary) 45%, var(--deep) 100%); color: #fff; }
+  body.clear { background: transparent; }
+  .stage { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 6vmin; }
+  .el { opacity: 0; will-change: transform, opacity; }
+  .logo { height: 7.5vmin; }
+  .wordmark { font-size: 5.2vmin; font-weight: 700; letter-spacing: -0.01em; }
+  .icon { height: 13vmin; margin-bottom: 3vmin; }
+  .rule { width: 9vmin; height: 0.45vmin; background: var(--accent); border-radius: 1vmin; margin: 3.2vmin auto; transform-origin: center; }
+  .title { font-size: 7.4vmin; font-weight: 650; letter-spacing: -0.02em; line-height: 1.08; max-width: 80vw; }
+  .sub { margin-top: 2.6vmin; font-size: 2.15vmin; letter-spacing: 0.32em; text-transform: uppercase; color: rgba(255,255,255,.72); font-weight: 500; }
+  .num { font-size: 2.6vmin; letter-spacing: 0.4em; color: var(--accent); font-weight: 600; margin-bottom: 2.4vmin; }
+  .url { margin-top: 4vmin; display: inline-block; padding: 1.5vmin 3.4vmin; border-radius: 99px; background: #fff; color: var(--primary); font-size: 3vmin; font-weight: 650; letter-spacing: 0.01em; }
+  .disc { position: absolute; bottom: 4.5vmin; left: 0; right: 0; font-size: 1.6vmin; color: rgba(255,255,255,.55); letter-spacing: 0.02em; }
+  body.portrait .title { font-size: 6.6vmin; }
+  body.portrait .logo { height: 6.5vmin; }
+  /* lower third */
+  .lt { position: absolute; left: 3.2vw; bottom: 7vh; display: flex; align-items: stretch; background: rgba(255,255,255,.97);
+        border-radius: 1.2vmin; box-shadow: 0 1.2vmin 3.5vmin color-mix(in srgb, var(--deep) 22%, transparent); overflow: hidden; max-width: 70vw; }
+  .lt .bar { width: 0.9vmin; background: var(--primary); }
+  .lt .txt { padding: 1.7vmin 2.6vmin 1.8vmin 2.2vmin; text-align: left; }
+  .lt .t { font-size: 3vmin; font-weight: 650; color: var(--primary); letter-spacing: -0.01em; }
+  .lt .s { font-size: 1.85vmin; color: var(--muted); margin-top: 0.5vmin; letter-spacing: 0.02em; }
+  body.portrait .lt { left: 5vw; right: 5vw; bottom: auto; top: 9vh; max-width: none; }
+  body.portrait .lt .t { font-size: 4.2vmin; }
+  body.portrait .lt .s { font-size: 2.8vmin; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+  const C = window.__CARD;  // { kind, title, sub, num, name, url, tagline, disclaimer, logo, icon, duration, portrait }
+  document.body.classList.add(C.kind === 'lower-third' ? 'clear' : 'solid');
+  if (C.portrait) document.body.classList.add('portrait');
+  const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  // Logo image when the brand has one, else the product name set in the brand font.
+  const mark = (d) => C.logo ? `<img class="el logo" data-d="${d}" src="${C.logo}">` : C.name ? `<div class="el wordmark" data-d="${d}">${esc(C.name)}</div>` : '';
+  const root = document.getElementById('root');
+  const html = {
+    intro: `<div class="stage">${mark(0.15)}<div class="el rule" data-d="0.45" data-k="rule"></div>
+            <div class="el title" data-d="0.6">${esc(C.title)}</div>${C.sub ? `<div class="el sub" data-d="0.9">${esc(C.sub)}</div>` : ''}</div>`,
+    chapter: `<div class="stage">${C.num ? `<div class="el num" data-d="0.1">${esc(C.num)}</div>` : ''}<div class="el title" data-d="0.25">${esc(C.title)}</div>
+            <div class="el rule" data-d="0.5" data-k="rule"></div></div>`,
+    outro: `<div class="stage">${C.icon ? `<img class="el icon" data-d="0.1" src="${C.icon}">` : ''}${mark(0.3)}
+            ${C.title ? `<div class="el title" data-d="0.65" style="margin-top:4vmin;font-size:5.4vmin">${esc(C.title)}</div>` : ''}
+            ${C.url ? `<div class="el url" data-d="1.0">${esc(C.url)}</div>` : ''}
+            ${C.tagline ? `<div class="el sub" data-d="1.25">${esc(C.tagline)}</div>` : ''}</div>
+            ${C.disclaimer ? `<div class="el disc" data-d="1.5">${esc(C.disclaimer)}</div>` : ''}`,
+    'lower-third': `<div class="lt el" data-d="0" style="opacity:1"><div class="bar"></div><div class="txt"><div class="t">${esc(C.title)}</div>${C.sub ? `<div class="s">${esc(C.sub)}</div>` : ''}</div></div>`,
+  }[C.kind];
+  root.innerHTML = html;
+  const els = [...root.querySelectorAll('.el')];
+  const ease = (u) => 1 - Math.pow(1 - Math.min(1, Math.max(0, u)), 3);
+  // Pure function of time: every frame is reproducible.
+  window.render = (t) => {
+    const out = C.kind === 'outro' || C.kind === 'lower-third' ? 1 : 1 - ease((t - (C.duration - 0.4)) / 0.35);
+    for (const el of els) {
+      if (C.kind === 'lower-third') { el.style.opacity = 1; continue; }
+      const p = ease((t - parseFloat(el.dataset.d)) / 0.55);
+      el.style.opacity = p * out;
+      el.style.transform = el.dataset.k === 'rule' ? `scaleX(${p})` : `translateY(${(1 - p) * 2.2}vmin)`;
+    }
+  };
+  window.render(0);
+</script>
+</body>
+</html>

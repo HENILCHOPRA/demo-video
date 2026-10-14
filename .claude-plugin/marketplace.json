@@ -1,0 +1,11 @@
+{
+  "name": "demo-video",
+  "owner": { "name": "Henil Chopada" },
+  "plugins": [
+    {
+      "name": "demo-video",
+      "source": "./",
+      "description": "Narrated product demo videos of your own web app — recorded for real with Playwright, voiced, zoomed, cut and branded."
+    }
+  ]
+}

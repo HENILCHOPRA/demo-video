@@ -1,0 +1,10 @@
+{
+  "name": "demo-video",
+  "version": "0.1.0",
+  "description": "Narrated product demo videos of your own web app: reads the code, storyboards, voices it (ElevenLabs via OpenRouter), records the real app with Playwright, and edits with dead-time cuts, auto-zoom, SFX, music, captions and branded cards.",
+  "author": { "name": "Henil Chopada" },
+  "homepage": "https://github.com/HENILCHOPRA/demo-video",
+  "repository": "https://github.com/HENILCHOPRA/demo-video",
+  "license": "MIT",
+  "keywords": ["video", "demo", "screen-recording", "playwright", "voiceover", "marketing"]
+}

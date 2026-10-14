@@ -1,0 +1,23 @@
+{
+  "skill_name": "demo-video",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Make a ~45s short-form demo of our task board for LinkedIn — show creating a task and it showing up on the board. Base URL and demo login to follow.",
+      "expected_output": "demo-output/ with demo-plan.md, shots.json, demo.mp4 (40–60s, 1920x1080, VO + captions burned + SFX, intro/outro cards using .demo-video/brand.json — or a brand.json drafted from the code and confirmed with the user when missing), demo.jpg poster baked as frame 0, captions/demo.srt, share-copy.txt; no login screen, credentials or app host in footage; demo-output*/ git-ignored.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "need a 3-4 min walkthrough video of the app for new customer onboarding: dashboard, projects and settings. landscape, chapters please",
+      "expected_output": "Long-form chaptered demo with chapter cards, sidecar captions, chapters.txt timestamps.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "make a vertical reel showing our search feature. we log in with an emailed OTP code",
+      "expected_output": "1080x1920 short; recording signs in via record.mjs --login-headed (user signs in by hand once, session saved under work/), no OTP or credentials captured in footage or files outside work/.",
+      "files": []
+    }
+  ]
+}
